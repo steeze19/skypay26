@@ -1,0 +1,157 @@
+"use client"
+
+import type React from "react"
+
+import { useState, useEffect, useRef } from "react"
+import { useRouter } from "next/navigation"
+import { ArrowLeft, Camera, User, Mail, Phone, Save } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Input } from "@/components/ui/input"
+import Image from "next/image"
+
+export default function ProfilePage() {
+  const router = useRouter()
+  const fileInputRef = useRef<HTMLInputElement>(null)
+  const [userData, setUserData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+  })
+  const [userAvatar, setUserAvatar] = useState("")
+
+  useEffect(() => {
+    const savedUserData = localStorage.getItem("userData")
+    const savedAvatar = localStorage.getItem("userAvatar")
+
+    if (savedUserData) {
+      const parsedData = JSON.parse(savedUserData)
+      setUserData({
+        name: parsedData.name || "",
+        email: parsedData.email || "",
+        phone: parsedData.phone || "",
+      })
+    }
+
+    if (savedAvatar) {
+      setUserAvatar(savedAvatar)
+    }
+  }, [])
+
+  const handleAvatarClick = () => {
+    fileInputRef.current?.click()
+  }
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) {
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        const result = reader.result as string
+        setUserAvatar(result)
+        localStorage.setItem("userAvatar", result)
+      }
+      reader.readAsDataURL(file)
+    }
+  }
+
+  const handleSave = () => {
+    localStorage.setItem("userData", JSON.stringify(userData))
+    alert("Profile updated successfully!")
+    router.back()
+  }
+
+  return (
+    <div className="min-h-screen bg-black text-white">
+      <div className="max-w-md mx-auto p-6 space-y-6">
+        {/* Header */}
+        <div className="flex items-center justify-between">
+          <button onClick={() => router.back()} className="p-2 hover:bg-zinc-800 rounded-full transition-colors">
+            <ArrowLeft className="h-6 w-6" />
+          </button>
+          <Image src="/skypay-logo.png" alt="SkyPay" width={100} height={40} className="object-contain" />
+        </div>
+
+        <div className="space-y-2">
+          <h1 className="text-3xl font-bold">Edit Profile</h1>
+          <p className="text-gray-400">Update your personal information</p>
+        </div>
+
+        {/* Avatar Upload */}
+        <div className="flex flex-col items-center gap-4 py-6">
+          <div className="relative group cursor-pointer" onClick={handleAvatarClick}>
+            <Avatar className="h-32 w-32 border-4 border-yellow-500">
+              {userAvatar ? (
+                <AvatarImage src={userAvatar || "/placeholder.svg"} />
+              ) : (
+                <AvatarImage src="https://api.dicebear.com/7.x/avataaars/svg?seed=user" />
+              )}
+              <AvatarFallback className="bg-yellow-500 text-black font-bold text-3xl">
+                {userData.name.charAt(0).toUpperCase() || "U"}
+              </AvatarFallback>
+            </Avatar>
+            <div className="absolute inset-0 bg-black/50 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+              <Camera className="h-8 w-8 text-yellow-500" />
+            </div>
+          </div>
+          <input ref={fileInputRef} type="file" accept="image/*" onChange={handleFileChange} className="hidden" />
+          <p className="text-sm text-gray-400">Click to upload photo</p>
+        </div>
+
+        {/* Profile Form */}
+        <div className="space-y-4">
+          <div className="space-y-2">
+            <label className="text-sm text-gray-400 flex items-center gap-2">
+              <User className="h-4 w-4" />
+              Full Name
+            </label>
+            <Input
+              value={userData.name}
+              onChange={(e) => setUserData({ ...userData, name: e.target.value })}
+              className="bg-zinc-900 border-yellow-500/30 focus:border-yellow-500 rounded-xl h-12 text-white"
+              placeholder="Enter your name"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-sm text-gray-400 flex items-center gap-2">
+              <Mail className="h-4 w-4" />
+              Email Address
+            </label>
+            <Input
+              type="email"
+              value={userData.email}
+              onChange={(e) => setUserData({ ...userData, email: e.target.value })}
+              className="bg-zinc-900 border-yellow-500/30 focus:border-yellow-500 rounded-xl h-12 text-white"
+              placeholder="Enter your email"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-sm text-gray-400 flex items-center gap-2">
+              <Phone className="h-4 w-4" />
+              Phone Number
+            </label>
+            <Input
+              type="tel"
+              value={userData.phone}
+              onChange={(e) => setUserData({ ...userData, phone: e.target.value })}
+              className="bg-zinc-900 border-yellow-500/30 focus:border-yellow-500 rounded-xl h-12 text-white"
+              placeholder="Enter your phone number"
+            />
+          </div>
+        </div>
+
+        {/* Save Button */}
+        <Button
+          onClick={handleSave}
+          size="lg"
+          className="w-full h-14 text-lg font-semibold bg-yellow-500 hover:bg-yellow-400 text-black rounded-2xl shadow-lg shadow-yellow-500/20 transition-all duration-300 hover:shadow-xl hover:shadow-yellow-500/30 mt-8"
+        >
+          <Save className="h-5 w-5 mr-2" />
+          Save Changes
+        </Button>
+      </div>
+    </div>
+  )
+}
