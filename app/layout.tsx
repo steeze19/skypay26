@@ -5,6 +5,8 @@ import { GeistMono } from "geist/font/mono"
 import { Analytics } from "@vercel/analytics/next"
 import { Suspense } from "react"
 import "./globals.css"
+import { AnnouncementBanner } from "@/components/announcement-banner"
+import { AppFooter } from "@/components/app-footer"
 
 export const metadata: Metadata = {
   title: "SkyPay - Start Earning Big",
@@ -20,8 +22,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
-      <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable} antialiased`}>
-        <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
+      <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable} antialiased min-h-screen flex flex-col`}>
+        <AnnouncementBanner />
+        <main className="flex-1 pb-16">
+          <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
+        </main>
+        <AppFooter />
         <Analytics />
       </body>
     </html>
