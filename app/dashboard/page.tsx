@@ -119,12 +119,12 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-black text-white">
-      <div className="max-w-md mx-auto p-3 space-y-3">
+    <div className="min-h-screen bg-black text-white pb-16">
+      <div className="max-w-md mx-auto p-2.5 space-y-2.5">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <button onClick={() => router.push("/profile")} className="group">
-              <Avatar className="h-10 w-10 border-2 border-yellow-500 transition-transform group-hover:scale-105">
+              <Avatar className="h-9 w-9 border-2 border-yellow-500 transition-transform group-hover:scale-105">
                 {userAvatar ? (
                   <AvatarImage src={userAvatar || "/placeholder.svg"} />
                 ) : (
@@ -135,26 +135,26 @@ export default function DashboardPage() {
                 </AvatarFallback>
               </Avatar>
             </button>
-            <span className="text-base font-medium">{userName}</span>
+            <span className="text-sm font-medium">{userName}</span>
           </div>
-          <Image src="/skypay-logo.png" alt="SkyPay" width={70} height={28} className="object-contain" />
+          <Image src="/skypay-logo.png" alt="SkyPay" width={65} height={26} className="object-contain" />
         </div>
 
-        <div className="text-center space-y-1 py-3">
+        <div className="text-center space-y-1 py-2">
           <div className="flex items-center justify-center gap-2">
             {showBalance ? (
-              <h1 className="text-3xl font-bold">{formatBalance(balance)}</h1>
+              <h1 className="text-2xl font-bold">{formatBalance(balance)}</h1>
             ) : (
-              <h1 className="text-3xl font-bold">₦********</h1>
+              <h1 className="text-2xl font-bold">₦********</h1>
             )}
             <button
               onClick={() => setShowBalance(!showBalance)}
               className="p-1.5 hover:bg-yellow-500/10 rounded-full transition-colors"
             >
               {showBalance ? (
-                <Eye className="h-5 w-5 text-yellow-500" />
+                <Eye className="h-4 w-4 text-yellow-500" />
               ) : (
-                <EyeOff className="h-5 w-5 text-yellow-500" />
+                <EyeOff className="h-4 w-4 text-yellow-500" />
               )}
             </button>
           </div>
@@ -165,7 +165,7 @@ export default function DashboardPage() {
             size="lg"
             onClick={handleStartEarning}
             disabled={hasEarned || isEarning}
-            className="h-11 text-base font-semibold bg-yellow-500 hover:bg-yellow-400 text-black rounded-2xl shadow-lg shadow-yellow-500/20 transition-all duration-300 hover:shadow-xl hover:shadow-yellow-500/30 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="h-10 text-sm font-semibold bg-yellow-500 hover:bg-yellow-400 text-black rounded-2xl shadow-lg shadow-yellow-500/20 transition-all duration-300 hover:shadow-xl hover:shadow-yellow-500/30 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isEarning ? (
               <>
@@ -181,21 +181,21 @@ export default function DashboardPage() {
           <Button
             size="lg"
             onClick={() => router.push("/withdraw")}
-            className="h-11 text-base font-semibold bg-zinc-800 hover:bg-zinc-700 text-white rounded-2xl transition-all duration-300"
+            className="h-10 text-sm font-semibold bg-zinc-800 hover:bg-zinc-700 text-white rounded-2xl transition-all duration-300"
           >
             Withdraw
           </Button>
         </div>
 
-        <div className="bg-zinc-900 rounded-3xl p-3 space-y-3">
-          <p className="text-xs text-gray-300 leading-relaxed">
+        <div className="bg-zinc-900 rounded-3xl p-2.5 space-y-2.5">
+          <p className="text-[11px] text-gray-300 leading-relaxed px-1">
             {hasEarned
               ? "Explore our services below to manage your account."
               : "Click on the start earning button to start receiving your daily bonus."}
           </p>
 
-          <div className="bg-white rounded-3xl p-3">
-            <div className="grid grid-cols-4 gap-2">
+          <div className="bg-white rounded-3xl p-2.5">
+            <div className="grid grid-cols-4 gap-1.5">
               {actionIcons.map((item, index) => (
                 <button
                   key={index}
@@ -214,12 +214,6 @@ export default function DashboardPage() {
           </div>
 
           <PromoCarousel />
-
-          <div className="flex justify-center -mx-3 -mb-3 pt-2 bg-black rounded-b-3xl py-3">
-            <div className="w-full h-12 relative px-4">
-              <Image src="/skypay-logo.png" alt="SkyPay Logo" fill className="object-contain" />
-            </div>
-          </div>
         </div>
       </div>
     </div>

@@ -30,7 +30,7 @@ export function PromoCarousel() {
   }, [])
 
   return (
-    <div className="relative w-full h-40 rounded-2xl overflow-hidden bg-black">
+    <div className="relative w-full h-36 rounded-xl overflow-hidden bg-black shadow-lg">
       {promoImages.map((image, index) => (
         <div
           key={index}
@@ -38,11 +38,17 @@ export function PromoCarousel() {
             index === currentIndex ? "opacity-100" : "opacity-0"
           }`}
         >
-          <Image src={image.src || "/placeholder.svg"} alt={image.alt} fill className="object-cover" priority />
+          <Image
+            src={image.src || "/placeholder.svg"}
+            alt={image.alt}
+            fill
+            className="object-contain"
+            priority={index === 0}
+          />
         </div>
       ))}
 
-      <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1.5">
+      <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
         {promoImages.map((_, index) => (
           <button
             key={index}
