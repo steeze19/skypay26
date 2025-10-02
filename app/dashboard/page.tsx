@@ -27,23 +27,19 @@ export default function DashboardPage() {
 
     const lastRefreshTime = localStorage.getItem("lastBalanceRefresh")
     const currentTime = Date.now()
-    const twentyFourHours = 24 * 60 * 60 * 1000 // 24 hours in milliseconds
+    const twentyFourHours = 24 * 60 * 60 * 1000
 
-    // Check if 24 hours have passed since last refresh
     if (lastRefreshTime) {
       const timeSinceRefresh = currentTime - Number.parseInt(lastRefreshTime)
       if (timeSinceRefresh >= twentyFourHours) {
-        // Reset balance to ₦300,000
         localStorage.setItem("balance", "300000")
         localStorage.setItem("lastBalanceRefresh", currentTime.toString())
         localStorage.setItem("hasEarned", "true")
       }
     } else {
-      // First time, set the refresh timestamp
       localStorage.setItem("lastBalanceRefresh", currentTime.toString())
     }
 
-    // Load user data and balance from localStorage
     const savedBalance = localStorage.getItem("balance")
     const earnedStatus = localStorage.getItem("hasEarned")
     const savedAvatar = localStorage.getItem("userAvatar")
@@ -82,19 +78,16 @@ export default function DashboardPage() {
     if (!hasEarned) {
       setIsEarning(true)
 
-      // Play cash sound
       const audio = new Audio("/cash-sound.mp3")
       audio.play().catch((err) => console.log("Audio play failed:", err))
 
       setTimeout(() => {
-        // Add ₦300,000 to balance
         const newBalance = 300000
         const currentTime = Date.now()
         setBalance(newBalance)
         setHasEarned(true)
         setIsEarning(false)
 
-        // Save to localStorage
         localStorage.setItem("balance", newBalance.toString())
         localStorage.setItem("hasEarned", "true")
         localStorage.setItem("lastBalanceRefresh", currentTime.toString())
@@ -126,65 +119,56 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-black text-white">
-      <div className="max-w-md mx-auto p-4 sm:p-6 space-y-4 sm:space-y-6">
-        {/* Header with Logo */}
+      <div className="max-w-md mx-auto p-3 space-y-3">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex items-center gap-2">
             <button onClick={() => router.push("/profile")} className="group">
-              <Avatar className="h-12 w-12 sm:h-16 sm:w-16 border-2 border-yellow-500 transition-transform group-hover:scale-105">
+              <Avatar className="h-10 w-10 border-2 border-yellow-500 transition-transform group-hover:scale-105">
                 {userAvatar ? (
                   <AvatarImage src={userAvatar || "/placeholder.svg"} />
                 ) : (
                   <AvatarImage src="https://api.dicebear.com/7.x/avataaars/svg?seed=user" />
                 )}
-                <AvatarFallback className="bg-yellow-500 text-black font-bold">
+                <AvatarFallback className="bg-yellow-500 text-black font-bold text-sm">
                   {userName.charAt(0).toUpperCase()}
                 </AvatarFallback>
               </Avatar>
             </button>
-            <span className="text-lg sm:text-xl font-medium">{userName}</span>
+            <span className="text-base font-medium">{userName}</span>
           </div>
-          <Image
-            src="/skypay-logo.png"
-            alt="SkyPay"
-            width={80}
-            height={32}
-            className="object-contain sm:w-[100px] sm:h-[40px]"
-          />
+          <Image src="/skypay-logo.png" alt="SkyPay" width={70} height={28} className="object-contain" />
         </div>
 
-        {/* Balance Display */}
-        <div className="text-center space-y-2 sm:space-y-3 py-4 sm:py-8">
-          <div className="flex items-center justify-center gap-2 sm:gap-3">
+        <div className="text-center space-y-1 py-3">
+          <div className="flex items-center justify-center gap-2">
             {showBalance ? (
-              <h1 className="text-3xl sm:text-5xl font-bold">{formatBalance(balance)}</h1>
+              <h1 className="text-3xl font-bold">{formatBalance(balance)}</h1>
             ) : (
-              <h1 className="text-3xl sm:text-5xl font-bold">₦********</h1>
+              <h1 className="text-3xl font-bold">₦********</h1>
             )}
             <button
               onClick={() => setShowBalance(!showBalance)}
-              className="p-2 hover:bg-yellow-500/10 rounded-full transition-colors"
+              className="p-1.5 hover:bg-yellow-500/10 rounded-full transition-colors"
             >
               {showBalance ? (
-                <Eye className="h-5 w-5 sm:h-6 sm:w-6 text-yellow-500" />
+                <Eye className="h-5 w-5 text-yellow-500" />
               ) : (
-                <EyeOff className="h-5 w-5 sm:h-6 sm:w-6 text-yellow-500" />
+                <EyeOff className="h-5 w-5 text-yellow-500" />
               )}
             </button>
           </div>
         </div>
 
-        {/* Action Buttons */}
-        <div className="grid grid-cols-2 gap-3 sm:gap-4">
+        <div className="grid grid-cols-2 gap-2">
           <Button
             size="lg"
             onClick={handleStartEarning}
             disabled={hasEarned || isEarning}
-            className="h-12 sm:h-14 text-base sm:text-lg font-semibold bg-yellow-500 hover:bg-yellow-400 text-black rounded-2xl shadow-lg shadow-yellow-500/20 transition-all duration-300 hover:shadow-xl hover:shadow-yellow-500/30 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="h-11 text-base font-semibold bg-yellow-500 hover:bg-yellow-400 text-black rounded-2xl shadow-lg shadow-yellow-500/20 transition-all duration-300 hover:shadow-xl hover:shadow-yellow-500/30 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isEarning ? (
               <>
-                <Loader2 className="mr-2 h-4 w-4 sm:h-5 sm:w-5 animate-spin" />
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 Earning...
               </>
             ) : hasEarned ? (
@@ -196,44 +180,40 @@ export default function DashboardPage() {
           <Button
             size="lg"
             onClick={() => router.push("/withdraw")}
-            className="h-12 sm:h-14 text-base sm:text-lg font-semibold bg-zinc-800 hover:bg-zinc-700 text-white rounded-2xl transition-all duration-300"
+            className="h-11 text-base font-semibold bg-zinc-800 hover:bg-zinc-700 text-white rounded-2xl transition-all duration-300"
           >
             Withdraw
           </Button>
         </div>
 
-        {/* Info Card */}
-        <div className="bg-zinc-900 rounded-3xl p-4 sm:p-6 space-y-4 sm:space-y-6">
-          <p className="text-sm sm:text-base text-gray-300 leading-relaxed">
+        <div className="bg-zinc-900 rounded-3xl p-3 space-y-3">
+          <p className="text-xs text-gray-300 leading-relaxed">
             {hasEarned
               ? "Explore our services below to manage your account."
               : "Click on the start earning button to start receiving your daily bonus."}
           </p>
 
-          {/* Action Icons Grid */}
-          <div className="bg-white rounded-3xl p-4 sm:p-6">
-            <div className="grid grid-cols-4 gap-3 sm:gap-4">
+          <div className="bg-white rounded-3xl p-3">
+            <div className="grid grid-cols-4 gap-2">
               {actionIcons.map((item, index) => (
                 <button
                   key={index}
                   onClick={() => router.push(item.route)}
-                  className="flex flex-col items-center gap-1 sm:gap-2 group"
+                  className="flex flex-col items-center gap-1 group"
                 >
                   <div
-                    className={`${item.color} p-2 sm:p-3 rounded-full transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-yellow-500/20`}
+                    className={`${item.color} p-2 rounded-full transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-yellow-500/20`}
                   >
-                    <span className="text-xl sm:text-2xl">{item.emoji}</span>
+                    <span className="text-xl">{item.emoji}</span>
                   </div>
-                  <span className="text-[10px] sm:text-xs text-gray-600 font-medium text-center leading-tight">
-                    {item.label}
-                  </span>
+                  <span className="text-[9px] text-gray-600 font-medium text-center leading-tight">{item.label}</span>
                 </button>
               ))}
             </div>
           </div>
 
-          <div className="flex justify-center -mx-4 sm:-mx-6 -mb-4 sm:-mb-6 pt-3 sm:pt-4 bg-black rounded-b-3xl py-4 sm:py-6">
-            <div className="w-full h-16 sm:h-20 relative px-4">
+          <div className="flex justify-center -mx-3 -mb-3 pt-2 bg-black rounded-b-3xl py-3">
+            <div className="w-full h-12 relative px-4">
               <Image src="/skypay-logo.png" alt="SkyPay Logo" fill className="object-contain" />
             </div>
           </div>

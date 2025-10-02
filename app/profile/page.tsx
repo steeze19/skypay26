@@ -4,7 +4,7 @@ import type React from "react"
 
 import { useState, useEffect, useRef } from "react"
 import { useRouter } from "next/navigation"
-import { ArrowLeft, Camera, User, Mail, Phone, Save, Loader2 } from "lucide-react"
+import { ArrowLeft, Camera, User, Mail, Phone, Save, Loader2, LogOut } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Input } from "@/components/ui/input"
@@ -76,6 +76,21 @@ export default function ProfilePage() {
       alert("Profile updated successfully!")
       router.back()
     }, 1000)
+  }
+
+  const handleLogout = () => {
+    const confirmLogout = confirm("Are you sure you want to logout?")
+    if (confirmLogout) {
+      // Clear all user data from localStorage
+      localStorage.removeItem("userData")
+      localStorage.removeItem("balance")
+      localStorage.removeItem("hasEarned")
+      localStorage.removeItem("userAvatar")
+      localStorage.removeItem("lastBalanceRefresh")
+
+      // Redirect to welcome page
+      router.push("/")
+    }
   }
 
   if (isLoading) {
@@ -190,6 +205,16 @@ export default function ProfilePage() {
               Save Changes
             </>
           )}
+        </Button>
+
+        <Button
+          onClick={handleLogout}
+          size="lg"
+          variant="outline"
+          className="w-full h-14 text-lg font-semibold bg-transparent border-2 border-red-500 hover:bg-red-500/10 text-red-500 rounded-2xl transition-all duration-300"
+        >
+          <LogOut className="h-5 w-5 mr-2" />
+          Logout
         </Button>
       </div>
     </div>
