@@ -187,7 +187,7 @@ export default function DashboardPage() {
           </Button>
         </div>
 
-        <div className="bg-zinc-900 rounded-3xl p-2.5 space-y-2.5">
+        <div className="bg-zinc-900 rounded-3xl p-2.5 space-y-2.5 overflow-hidden">
           <p className="text-[11px] text-gray-300 leading-relaxed px-1">
             {hasEarned
               ? "Explore our services below to manage your account."

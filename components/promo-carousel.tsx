@@ -30,7 +30,7 @@ export function PromoCarousel() {
   }, [])
 
   return (
-    <div className="relative w-full h-36 rounded-xl overflow-hidden bg-black shadow-lg">
+    <div className="relative w-full h-52 rounded-lg overflow-hidden bg-black shadow-lg -mx-2.5">
       {promoImages.map((image, index) => (
         <div
           key={index}
@@ -42,7 +42,7 @@ export function PromoCarousel() {
             src={image.src || "/placeholder.svg"}
             alt={image.alt}
             fill
-            className="object-contain"
+            className="object-cover"
             priority={index === 0}
           />
         </div>
