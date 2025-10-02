@@ -6,6 +6,7 @@ import { Eye, EyeOff, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import Image from "next/image"
+import { PromoCarousel } from "@/components/promo-carousel"
 
 export default function DashboardPage() {
   const router = useRouter()
@@ -211,6 +212,8 @@ export default function DashboardPage() {
               ))}
             </div>
           </div>
+
+          <PromoCarousel />
 
           <div className="flex justify-center -mx-3 -mb-3 pt-2 bg-black rounded-b-3xl py-3">
             <div className="w-full h-12 relative px-4">
