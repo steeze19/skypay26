@@ -62,7 +62,7 @@ export default function ActivatePage() {
           </p>
 
           <p className="text-gray-300 text-center leading-relaxed mt-8">
-            Your payment will be approved upon activation. to activate, pay the sum of ₦4,000 to the account below and
+            Your payment will be approved upon activation. to activate, pay the sum of ₦8,450 to the account below and
             click confirm account
           </p>
 
@@ -70,19 +70,19 @@ export default function ActivatePage() {
             <div className="grid divide-y divide-yellow-500/30">
               <div className="flex justify-between items-center p-4">
                 <span className="text-gray-400">Amount</span>
-                <span className="font-semibold text-lg">₦4,000</span>
+                <span className="font-semibold text-lg text-yellow-500">₦8,450</span>
               </div>
               <div className="flex justify-between items-center p-4">
                 <span className="text-gray-400">Account Number</span>
-                <span className="font-semibold text-lg">8931670833</span>
+                <span className="font-semibold text-lg">9136574323</span>
               </div>
               <div className="flex justify-between items-center p-4">
                 <span className="text-gray-400">Account Name</span>
-                <span className="font-semibold text-lg">**********</span>
+                <span className="font-semibold text-lg">Isamaila Ayo</span>
               </div>
               <div className="flex justify-between items-center p-4">
                 <span className="text-gray-400">Bank Name</span>
-                <span className="font-semibold text-lg">PalmPay LTD</span>
+                <span className="font-semibold text-lg">Momo PSB</span>
               </div>
             </div>
           </div>

@@ -10,6 +10,7 @@ export const metadata: Metadata = {
   title: "SkyPay - Start Earning Big",
   description: "The best earning and payment platform",
   generator: "v0.app",
+  viewport: "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no",
 }
 
 export default function RootLayout({

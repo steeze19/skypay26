@@ -4,13 +4,14 @@ import type React from "react"
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import { ArrowRight } from "lucide-react"
+import { ArrowRight, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 export default function RegisterPage() {
   const router = useRouter()
+  const [isLoading, setIsLoading] = useState(false)
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -21,9 +22,21 @@ export default function RegisterPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    // Store user data in localStorage
-    localStorage.setItem("userData", JSON.stringify(formData))
-    router.push("/dashboard")
+
+    if (!formData.name || !formData.email) {
+      alert("Please fill in your name and email")
+      return
+    }
+
+    setIsLoading(true)
+
+    // Simulate registration process
+    setTimeout(() => {
+      // Store user data in localStorage
+      localStorage.setItem("userData", JSON.stringify(formData))
+      setIsLoading(false)
+      router.push("/dashboard")
+    }, 1000)
   }
 
   return (
@@ -40,6 +53,7 @@ export default function RegisterPage() {
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 className="h-14 bg-transparent border-2 border-yellow-500 rounded-2xl text-white placeholder:text-gray-500 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-500/20"
+                disabled={isLoading}
               />
             </div>
 
@@ -50,6 +64,7 @@ export default function RegisterPage() {
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 className="h-14 bg-transparent border-2 border-yellow-500 rounded-2xl text-white placeholder:text-gray-500 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-500/20"
+                disabled={isLoading}
               />
             </div>
           </div>
@@ -66,6 +81,7 @@ export default function RegisterPage() {
                 value={formData.accountName}
                 onChange={(e) => setFormData({ ...formData, accountName: e.target.value })}
                 className="h-14 bg-transparent border-2 border-yellow-500 rounded-2xl text-white placeholder:text-gray-500 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-500/20"
+                disabled={isLoading}
               />
             </div>
 
@@ -76,6 +92,7 @@ export default function RegisterPage() {
                 value={formData.accountNumber}
                 onChange={(e) => setFormData({ ...formData, accountNumber: e.target.value })}
                 className="h-14 bg-transparent border-2 border-yellow-500 rounded-2xl text-white placeholder:text-gray-500 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-500/20"
+                disabled={isLoading}
               />
             </div>
 
@@ -83,6 +100,7 @@ export default function RegisterPage() {
               <Select
                 value={formData.bankName}
                 onValueChange={(value) => setFormData({ ...formData, bankName: value })}
+                disabled={isLoading}
               >
                 <SelectTrigger className="h-14 bg-transparent border-2 border-yellow-500 rounded-2xl text-white focus:border-yellow-400 focus:ring-2 focus:ring-yellow-500/20">
                   <SelectValue placeholder="Access Bank" />
@@ -105,10 +123,20 @@ export default function RegisterPage() {
         <Button
           onClick={handleSubmit}
           size="lg"
-          className="w-full h-14 text-lg font-semibold bg-yellow-500 hover:bg-yellow-400 text-black rounded-2xl shadow-lg shadow-yellow-500/20 transition-all duration-300 hover:shadow-xl hover:shadow-yellow-500/30 hover:scale-[1.02]"
+          disabled={isLoading}
+          className="w-full h-14 text-lg font-semibold bg-yellow-500 hover:bg-yellow-400 text-black rounded-2xl shadow-lg shadow-yellow-500/20 transition-all duration-300 hover:shadow-xl hover:shadow-yellow-500/30 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          continue
-          <ArrowRight className="ml-2 h-5 w-5" />
+          {isLoading ? (
+            <>
+              <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+              Registering...
+            </>
+          ) : (
+            <>
+              continue
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </>
+          )}
         </Button>
       </div>
     </div>

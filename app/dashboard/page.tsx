@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
-import { Eye, EyeOff, Wifi, Smartphone, MessageCircle, Users, Code, Play } from "lucide-react"
+import { Eye, EyeOff, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import Image from "next/image"
@@ -14,10 +14,18 @@ export default function DashboardPage() {
   const [userName, setUserName] = useState("user")
   const [hasEarned, setHasEarned] = useState(false)
   const [userAvatar, setUserAvatar] = useState("")
+  const [isLoading, setIsLoading] = useState(true)
+  const [isEarning, setIsEarning] = useState(false)
 
   useEffect(() => {
-    // Load user data and balance from localStorage
     const userData = localStorage.getItem("userData")
+
+    if (!userData) {
+      router.push("/register")
+      return
+    }
+
+    // Load user data and balance from localStorage
     const savedBalance = localStorage.getItem("balance")
     const earnedStatus = localStorage.getItem("hasEarned")
     const savedAvatar = localStorage.getItem("userAvatar")
@@ -38,7 +46,11 @@ export default function DashboardPage() {
     if (savedAvatar) {
       setUserAvatar(savedAvatar)
     }
-  }, [])
+
+    setTimeout(() => {
+      setIsLoading(false)
+    }, 800)
+  }, [router])
 
   const formatBalance = (amount: number) => {
     return new Intl.NumberFormat("en-NG", {
@@ -50,29 +62,45 @@ export default function DashboardPage() {
 
   const handleStartEarning = () => {
     if (!hasEarned) {
+      setIsEarning(true)
+
       // Play cash sound
       const audio = new Audio("/cash-sound.mp3")
       audio.play().catch((err) => console.log("Audio play failed:", err))
 
-      // Add ₦300,000 to balance
-      const newBalance = 300000
-      setBalance(newBalance)
-      setHasEarned(true)
+      setTimeout(() => {
+        // Add ₦300,000 to balance
+        const newBalance = 300000
+        setBalance(newBalance)
+        setHasEarned(true)
+        setIsEarning(false)
 
-      // Save to localStorage
-      localStorage.setItem("balance", newBalance.toString())
-      localStorage.setItem("hasEarned", "true")
+        // Save to localStorage
+        localStorage.setItem("balance", newBalance.toString())
+        localStorage.setItem("hasEarned", "true")
+      }, 1500)
     }
   }
 
   const actionIcons = [
-    { icon: Wifi, label: "Data", color: "bg-yellow-500/20", route: "/data" },
-    { icon: Smartphone, label: "Airtime", color: "bg-yellow-500/20", route: "/airtime" },
-    { icon: MessageCircle, label: "Support", color: "bg-yellow-500/20", route: "/support" },
-    { icon: Users, label: "Community", color: "bg-yellow-500/20", route: "/community" },
-    { icon: Code, label: "Sky Code", color: "bg-yellow-500/20", route: "/skycode" },
-    { icon: Play, label: "Watch", color: "bg-yellow-500/20", route: "/watch" },
+    { emoji: "📶", label: "Data", color: "bg-yellow-500/20", route: "/data" },
+    { emoji: "📞", label: "Airtime", color: "bg-yellow-500/20", route: "/airtime" },
+    { emoji: "🗯", label: "Support", color: "bg-yellow-500/20", route: "/support" },
+    { emoji: "👥", label: "Community", color: "bg-yellow-500/20", route: "/community" },
+    { emoji: "🛍", label: "Sky Code", color: "bg-yellow-500/20", route: "/skycode" },
+    { emoji: "📺", label: "Watch", color: "bg-yellow-500/20", route: "/watch" },
   ]
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-black text-white flex items-center justify-center">
+        <div className="text-center space-y-4">
+          <Loader2 className="h-12 w-12 animate-spin text-yellow-500 mx-auto" />
+          <p className="text-gray-400">Loading your dashboard...</p>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -123,10 +151,19 @@ export default function DashboardPage() {
           <Button
             size="lg"
             onClick={handleStartEarning}
-            disabled={hasEarned}
+            disabled={hasEarned || isEarning}
             className="h-14 text-lg font-semibold bg-yellow-500 hover:bg-yellow-400 text-black rounded-2xl shadow-lg shadow-yellow-500/20 transition-all duration-300 hover:shadow-xl hover:shadow-yellow-500/30 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {hasEarned ? "Already Earned" : "Start Earning"}
+            {isEarning ? (
+              <>
+                <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                Earning...
+              </>
+            ) : hasEarned ? (
+              "Already Earned"
+            ) : (
+              "Start Earning"
+            )}
           </Button>
           <Button
             size="lg"
@@ -157,11 +194,17 @@ export default function DashboardPage() {
                   <div
                     className={`${item.color} p-4 rounded-full transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-yellow-500/20`}
                   >
-                    <item.icon className="h-7 w-7 text-yellow-500" />
+                    <span className="text-3xl">{item.emoji}</span>
                   </div>
                   <span className="text-xs text-gray-600 font-medium">{item.label}</span>
                 </button>
               ))}
+            </div>
+          </div>
+
+          <div className="flex justify-center -mx-6 -mb-6 pt-4 bg-black rounded-b-3xl py-6">
+            <div className="w-full max-w-[280px] h-24 relative px-4">
+              <Image src="/skypay-logo.png" alt="SkyPay Logo" fill className="object-contain" />
             </div>
           </div>
         </div>

@@ -4,7 +4,7 @@ import type React from "react"
 
 import { useState, useEffect, useRef } from "react"
 import { useRouter } from "next/navigation"
-import { ArrowLeft, Camera, User, Mail, Phone, Save } from "lucide-react"
+import { ArrowLeft, Camera, User, Mail, Phone, Save, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Input } from "@/components/ui/input"
@@ -13,6 +13,8 @@ import Image from "next/image"
 export default function ProfilePage() {
   const router = useRouter()
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [isSaving, setIsSaving] = useState(false)
   const [userData, setUserData] = useState({
     name: "",
     email: "",
@@ -22,6 +24,12 @@ export default function ProfilePage() {
 
   useEffect(() => {
     const savedUserData = localStorage.getItem("userData")
+
+    if (!savedUserData) {
+      router.push("/register")
+      return
+    }
+
     const savedAvatar = localStorage.getItem("userAvatar")
 
     if (savedUserData) {
@@ -36,7 +44,11 @@ export default function ProfilePage() {
     if (savedAvatar) {
       setUserAvatar(savedAvatar)
     }
-  }, [])
+
+    setTimeout(() => {
+      setIsLoading(false)
+    }, 500)
+  }, [router])
 
   const handleAvatarClick = () => {
     fileInputRef.current?.click()
@@ -56,9 +68,25 @@ export default function ProfilePage() {
   }
 
   const handleSave = () => {
-    localStorage.setItem("userData", JSON.stringify(userData))
-    alert("Profile updated successfully!")
-    router.back()
+    setIsSaving(true)
+
+    setTimeout(() => {
+      localStorage.setItem("userData", JSON.stringify(userData))
+      setIsSaving(false)
+      alert("Profile updated successfully!")
+      router.back()
+    }, 1000)
+  }
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-black text-white flex items-center justify-center">
+        <div className="text-center space-y-4">
+          <Loader2 className="h-12 w-12 animate-spin text-yellow-500 mx-auto" />
+          <p className="text-gray-400">Loading profile...</p>
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -110,6 +138,7 @@ export default function ProfilePage() {
               onChange={(e) => setUserData({ ...userData, name: e.target.value })}
               className="bg-zinc-900 border-yellow-500/30 focus:border-yellow-500 rounded-xl h-12 text-white"
               placeholder="Enter your name"
+              disabled={isSaving}
             />
           </div>
 
@@ -124,6 +153,7 @@ export default function ProfilePage() {
               onChange={(e) => setUserData({ ...userData, email: e.target.value })}
               className="bg-zinc-900 border-yellow-500/30 focus:border-yellow-500 rounded-xl h-12 text-white"
               placeholder="Enter your email"
+              disabled={isSaving}
             />
           </div>
 
@@ -138,18 +168,28 @@ export default function ProfilePage() {
               onChange={(e) => setUserData({ ...userData, phone: e.target.value })}
               className="bg-zinc-900 border-yellow-500/30 focus:border-yellow-500 rounded-xl h-12 text-white"
               placeholder="Enter your phone number"
+              disabled={isSaving}
             />
           </div>
         </div>
 
-        {/* Save Button */}
         <Button
           onClick={handleSave}
           size="lg"
-          className="w-full h-14 text-lg font-semibold bg-yellow-500 hover:bg-yellow-400 text-black rounded-2xl shadow-lg shadow-yellow-500/20 transition-all duration-300 hover:shadow-xl hover:shadow-yellow-500/30 mt-8"
+          disabled={isSaving}
+          className="w-full h-14 text-lg font-semibold bg-yellow-500 hover:bg-yellow-400 text-black rounded-2xl shadow-lg shadow-yellow-500/20 transition-all duration-300 hover:shadow-xl hover:shadow-yellow-500/30 mt-8 disabled:opacity-50"
         >
-          <Save className="h-5 w-5 mr-2" />
-          Save Changes
+          {isSaving ? (
+            <>
+              <Loader2 className="h-5 w-5 mr-2 animate-spin" />
+              Saving...
+            </>
+          ) : (
+            <>
+              <Save className="h-5 w-5 mr-2" />
+              Save Changes
+            </>
+          )}
         </Button>
       </div>
     </div>
