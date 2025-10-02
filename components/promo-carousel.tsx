@@ -30,7 +30,7 @@ export function PromoCarousel() {
   }, [])
 
   return (
-    <div className="relative w-full h-52 rounded-lg overflow-hidden bg-black shadow-lg -mx-2.5">
+    <div className="relative w-full h-36 rounded-2xl overflow-hidden bg-black shadow-lg">
       {promoImages.map((image, index) => (
         <div
           key={index}
@@ -42,19 +42,19 @@ export function PromoCarousel() {
             src={image.src || "/placeholder.svg"}
             alt={image.alt}
             fill
-            className="object-cover"
+            className="object-contain"
             priority={index === 0}
           />
         </div>
       ))}
 
-      <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
+      <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1.5 bg-black/30 backdrop-blur-sm px-2 py-1 rounded-full">
         {promoImages.map((_, index) => (
           <button
             key={index}
             onClick={() => setCurrentIndex(index)}
             className={`h-1.5 rounded-full transition-all duration-300 ${
-              index === currentIndex ? "w-6 bg-yellow-500" : "w-1.5 bg-white/50"
+              index === currentIndex ? "w-6 bg-yellow-500" : "w-1.5 bg-white/60"
             }`}
             aria-label={`Go to slide ${index + 1}`}
           />

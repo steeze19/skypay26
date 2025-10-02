@@ -120,8 +120,8 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-black text-white pb-16">
-      <div className="max-w-md mx-auto p-2.5 space-y-2.5">
-        <div className="flex items-center justify-between">
+      <div className="max-w-md mx-auto p-2 space-y-2">
+        <div className="flex items-center justify-between py-1">
           <div className="flex items-center gap-2">
             <button onClick={() => router.push("/profile")} className="group">
               <Avatar className="h-9 w-9 border-2 border-yellow-500 transition-transform group-hover:scale-105">
@@ -130,14 +130,14 @@ export default function DashboardPage() {
                 ) : (
                   <AvatarImage src="https://api.dicebear.com/7.x/avataaars/svg?seed=user" />
                 )}
-                <AvatarFallback className="bg-yellow-500 text-black font-bold text-sm">
+                <AvatarFallback className="bg-yellow-500 text-black font-bold text-xs">
                   {userName.charAt(0).toUpperCase()}
                 </AvatarFallback>
               </Avatar>
             </button>
             <span className="text-sm font-medium">{userName}</span>
           </div>
-          <Image src="/skypay-logo.png" alt="SkyPay" width={65} height={26} className="object-contain" />
+          <Image src="/skypay-logo.png" alt="SkyPay" width={60} height={24} className="object-contain" />
         </div>
 
         <div className="text-center space-y-1 py-2">
@@ -149,7 +149,7 @@ export default function DashboardPage() {
             )}
             <button
               onClick={() => setShowBalance(!showBalance)}
-              className="p-1.5 hover:bg-yellow-500/10 rounded-full transition-colors"
+              className="p-1 hover:bg-yellow-500/10 rounded-full transition-colors"
             >
               {showBalance ? (
                 <Eye className="h-4 w-4 text-yellow-500" />
@@ -187,8 +187,8 @@ export default function DashboardPage() {
           </Button>
         </div>
 
-        <div className="bg-zinc-900 rounded-3xl p-2.5 space-y-2.5 overflow-hidden">
-          <p className="text-[11px] text-gray-300 leading-relaxed px-1">
+        <div className="bg-zinc-900 rounded-3xl p-2.5 space-y-2">
+          <p className="text-[10px] text-gray-300 leading-relaxed px-1">
             {hasEarned
               ? "Explore our services below to manage your account."
               : "Click on the start earning button to start receiving your daily bonus."}
@@ -200,14 +200,14 @@ export default function DashboardPage() {
                 <button
                   key={index}
                   onClick={() => router.push(item.route)}
-                  className="flex flex-col items-center gap-1 group"
+                  className="flex flex-col items-center gap-0.5 group"
                 >
                   <div
-                    className={`${item.color} p-2 rounded-full transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-yellow-500/20`}
+                    className={`${item.color} p-1.5 rounded-full transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-yellow-500/20`}
                   >
-                    <span className="text-xl">{item.emoji}</span>
+                    <span className="text-lg">{item.emoji}</span>
                   </div>
-                  <span className="text-[9px] text-gray-600 font-medium text-center leading-tight">{item.label}</span>
+                  <span className="text-[8px] text-gray-600 font-medium text-center leading-tight">{item.label}</span>
                 </button>
               ))}
             </div>
