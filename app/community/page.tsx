@@ -12,7 +12,7 @@ export default function CommunityPage() {
       icon: MessageCircle,
       title: "WhatsApp Community",
       description: "Join our WhatsApp community",
-      action: () => window.open("https://chat.whatsapp.com/skypay"),
+      action: () => window.open("https://chat.whatsapp.com/IWNd4aZXFXU6vKWeJDCxfX?mode=ems_copy_t", "_blank"),
     },
     {
       icon: Send,
