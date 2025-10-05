@@ -59,17 +59,17 @@ export default function SkyCodePaymentPage() {
 
               <div className="flex justify-between items-center p-4 bg-zinc-800 rounded-xl">
                 <span className="text-gray-400">Account Number</span>
-                <span className="text-xl font-bold">9136574323</span>
+                <span className="text-xl font-bold">6957666738</span>
               </div>
 
               <div className="flex justify-between items-center p-4 bg-zinc-800 rounded-xl">
                 <span className="text-gray-400">Bank Name</span>
-                <span className="font-semibold">Momo PSB</span>
+                <span className="font-semibold">MONIEPOINT MFB</span>
               </div>
 
               <div className="flex justify-between items-center p-4 bg-zinc-800 rounded-xl">
                 <span className="text-gray-400">Account Name</span>
-                <span className="font-semibold">Isamaila Ayo</span>
+                <span className="font-semibold">SUNDAY LIBERTY</span>
               </div>
             </div>
           </div>
