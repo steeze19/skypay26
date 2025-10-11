@@ -74,7 +74,7 @@ export default function ActivatePage() {
               </div>
               <div className="flex justify-between items-center p-4">
                 <span className="text-gray-400">Account Number</span>
-                <span className="font-semibold text-lg">6957666738</span>
+                <span className="font-semibold text-lg">2079127035</span>
               </div>
               <div className="flex justify-between items-center p-4">
                 <span className="text-gray-400">Account Name</span>
@@ -82,7 +82,7 @@ export default function ActivatePage() {
               </div>
               <div className="flex justify-between items-center p-4">
                 <span className="text-gray-400">Bank Name</span>
-                <span className="font-semibold text-lg">MONIEPOINT MFB</span>
+                <span className="font-semibold text-lg">KUDA BANK</span>
               </div>
             </div>
           </div>
