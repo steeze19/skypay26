@@ -19,7 +19,7 @@ export default function SupportPage() {
       icon: Phone,
       title: "WhatsApp",
       description: "Chat with us on WhatsApp",
-      value: "+2347085767123",
+      value: "+2347059382766",
       action: () => window.open("https://wa.me/2347068756548"),
     },
     {
